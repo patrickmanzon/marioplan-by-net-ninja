@@ -1,8 +1,19 @@
 import React from 'react'
 import ProjectList from '../projects/ProjectList'
 import Notifications from './Notifications'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-const Dashboard = () => {
+
+const Dashboard = (props) => {
+
+    const { auth } = props
+
+    //console.log(auth)
+
+    if(!auth.uid) {
+        return <Redirect to="/signin" />
+    }
 
     return (
         <div className="dashboard container">
@@ -20,6 +31,13 @@ const Dashboard = () => {
 
 }
 
+const mapStateToProps = (state) => {
 
-export default Dashboard;
+    return {
+        auth: state.firebase.auth
+    }
+
+}
+
+export default connect(mapStateToProps)(Dashboard);
 
